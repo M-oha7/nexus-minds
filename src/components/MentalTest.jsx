@@ -1,7 +1,13 @@
-import { useState } from "react";
-import { questions, closingLine } from "../data/mentalTest.js";
+import { useEffect, useState } from "react";
+import { useLanguage } from "../context/LanguageContext.jsx";
+import { getCopy } from "../i18n/translations.js";
+import LanguageToggle from "./LanguageToggle.jsx";
 
 function MentalTest({ onHome }) {
+  const { lang } = useLanguage();
+  const t = getCopy(lang).test;
+  const questions = t.questions;
+
   const [step, setStep] = useState(0);
   const [phase, setPhase] = useState("questions");
   const [answers, setAnswers] = useState([]);
@@ -11,6 +17,13 @@ function MentalTest({ onHome }) {
   const isLast = step === questions.length - 1;
   const selectedOption =
     selectedIndex !== null ? question.options[selectedIndex] : null;
+
+  useEffect(() => {
+    setStep(0);
+    setPhase("questions");
+    setAnswers([]);
+    setSelectedIndex(null);
+  }, [lang]);
 
   function handleSelect(optionIndex) {
     setSelectedIndex(optionIndex);
@@ -47,8 +60,9 @@ function MentalTest({ onHome }) {
 
     return (
       <main className="page test-page">
+        <LanguageToggle />
         <div className="test-container">
-          <h1 className="test-title">هذا ما يعكسه ما شاركته</h1>
+          <h1 className="test-title">{t.resultsTitle}</h1>
           <ul className="results-list">
             {points.map((point, i) => (
               <li key={i} className="results-item">
@@ -57,13 +71,13 @@ function MentalTest({ onHome }) {
               </li>
             ))}
           </ul>
-          <p className="closing-line">{closingLine}</p>
+          <p className="closing-line">{t.closingLine}</p>
           <div className="test-actions">
             <button type="button" className="btn btn-primary" onClick={handleRestart}>
-              ابدأ بناء نظامك
+              {t.startBuilding}
             </button>
             <button type="button" className="btn btn-ghost" onClick={onHome}>
-              الصفحة الرئيسية
+              {t.home}
             </button>
           </div>
         </div>
@@ -73,11 +87,10 @@ function MentalTest({ onHome }) {
 
   return (
     <main className="page test-page">
+      <LanguageToggle />
       <div className="test-container">
         <div className="test-progress">
-          <span>
-            سؤال {step + 1} من {questions.length}
-          </span>
+          <span>{t.progress(step + 1, questions.length)}</span>
           <div className="progress-bar" aria-hidden="true">
             <div
               className="progress-fill"
@@ -109,12 +122,12 @@ function MentalTest({ onHome }) {
 
         {selectedIndex !== null && (
           <button type="button" className="btn btn-primary test-next" onClick={handleNext}>
-            {isLast ? "عرض النتيجة" : "السؤال التالي"}
+            {isLast ? t.showResults : t.next}
           </button>
         )}
 
         <button type="button" className="btn btn-ghost test-back" onClick={onHome}>
-          ← الصفحة الرئيسية
+          {t.homeBack}
         </button>
       </div>
     </main>

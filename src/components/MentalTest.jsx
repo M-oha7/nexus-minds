@@ -3,7 +3,7 @@ import { useLanguage } from "../context/LanguageContext.jsx";
 import { getCopy } from "../i18n/translations.js";
 import LanguageToggle from "./LanguageToggle.jsx";
 
-function MentalTest({ onHome }) {
+function MentalTest({ onHome, onOpenSystem }) {
   const { lang } = useLanguage();
   const t = getCopy(lang).test;
   const questions = t.questions;
@@ -46,13 +46,6 @@ function MentalTest({ onHome }) {
     setSelectedIndex(null);
   }
 
-  function handleRestart() {
-    setStep(0);
-    setPhase("questions");
-    setAnswers([]);
-    setSelectedIndex(null);
-  }
-
   if (phase === "results") {
     const points = answers.map((optionIndex, i) =>
       questions[i].options[optionIndex].summaryPoint,
@@ -73,7 +66,7 @@ function MentalTest({ onHome }) {
           </ul>
           <p className="closing-line">{t.closingLine}</p>
           <div className="test-actions">
-            <button type="button" className="btn btn-primary" onClick={handleRestart}>
+            <button type="button" className="btn btn-primary" onClick={onOpenSystem}>
               {t.startBuilding}
             </button>
             <button type="button" className="btn btn-ghost" onClick={onHome}>

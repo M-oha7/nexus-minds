@@ -118,6 +118,38 @@ export const translations = {
         },
       ],
     },
+    system: {
+      pageTitle: "نظامك",
+      pageSubtitle: "أربع أنماط من إجاباتك — وأدوات عملية لإدارتها",
+      patternsLabel: "أنماط عقلك",
+      whatItMeans: "ماذا يعني",
+      toolsLabel: "أدوات عملية",
+      routineTitle: "روتينك اليومي",
+      routine: [
+        {
+          when: "الصباح (5 دقائق)",
+          habit: "سؤال نية واحد: «ما الشيء الوحيد الذي يستحق اهتمامي اليوم؟»",
+        },
+        {
+          when: "خلال اليوم",
+          habit: "مقبرة الأفكار — اكتب كل فكرة فوراً بلا تنفيذ",
+        },
+        {
+          when: "المساء (5 دقائق)",
+          habit: "جملة تعلّم واحدة: «اليوم تعلّمت أن ___»",
+        },
+        {
+          when: "أسبوعياً",
+          habit: "مراجعة النظام: ما الذي عمل؟ ما الذي أوقفه؟ ماذا أعدّل؟",
+        },
+      ],
+      shareButton: "شارك نظامك",
+      shareCopied: "تم نسخ نظامك — الصقه حيث تريد",
+      shareDone: "تمت المشاركة",
+      shareTitle: "نظامي — Nexus Minds",
+      retakeTest: "إعادة الاختبار",
+      home: "الصفحة الرئيسية",
+    },
     langToggle: { label: "Language", switchTo: "English" },
   },
   en: {
@@ -239,6 +271,38 @@ export const translations = {
           ],
         },
       ],
+    },
+    system: {
+      pageTitle: "Your System",
+      pageSubtitle: "Four patterns from your answers — and practical tools to manage them",
+      patternsLabel: "Your mind patterns",
+      whatItMeans: "What it means",
+      toolsLabel: "Practical tools",
+      routineTitle: "Your daily routine",
+      routine: [
+        {
+          when: "Morning (5 min)",
+          habit: "One intention question: \"What is the one thing that deserves my attention today?\"",
+        },
+        {
+          when: "During the day",
+          habit: "Idea graveyard — write every thought immediately, don't act on it",
+        },
+        {
+          when: "Evening (5 min)",
+          habit: "One learning sentence: \"Today I learned that ___\"",
+        },
+        {
+          when: "Weekly",
+          habit: "System review: What worked? What blocked me? What do I adjust?",
+        },
+      ],
+      shareButton: "Share your system",
+      shareCopied: "Your system was copied — paste it anywhere",
+      shareDone: "Shared",
+      shareTitle: "My System — Nexus Minds",
+      retakeTest: "Retake the test",
+      home: "Home",
     },
     langToggle: { label: "اللغة", switchTo: "العربية" },
   },

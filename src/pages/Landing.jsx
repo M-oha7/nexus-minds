@@ -5,7 +5,13 @@ function Landing({ onStart }) {
   const { t } = useTranslation();
 
   return (
-    <div className="page page-enter-active">
+    <div className="page page-enter-active landing-page">
+      <img 
+        src="https://i.imgur.com/jY8EoX4.jpg" 
+        alt="" 
+        className="landing-background"
+      />
+      <div className="landing-overlay"></div>
       <div className="landing-container">
         <div className="card landing-card">
           <h1 className="landing-title">{t('landing.title')}</h1>

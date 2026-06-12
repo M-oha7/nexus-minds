@@ -14,13 +14,25 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
         const data = await analyzeMind(answers, i18n.language);
         setResult(data);
         setMindType(data.mindType);
+        
+        // Save results to localStorage
+        localStorage.setItem('nexus_results', JSON.stringify({
+          mindType: data.mindType,
+          mindTypeAR: data.mindTypeAR,
+          description: data.description,
+          strengths: data.strengths,
+          challenges: data.challenges,
+          insight: data.insight,
+          timestamp: new Date().toISOString()
+        }));
+        
         setLoading(false);
       } catch (err) {
         console.error('Error analyzing mind:', err);
         setError(true);
         setLoading(false);
         // Fallback data
-        setResult({
+        const fallbackData = {
           mindType: i18n.language === 'ar' ? 'المعالج العميق' : 'Deep Processor',
           mindTypeAR: 'المعالج العميق',
           description: i18n.language === 'ar' 
@@ -35,7 +47,14 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
           insight: i18n.language === 'ar'
             ? 'عقلك مثل مكتبة ضخمة — تحتاج نظاماً للوصول للكتب المهمة بسرعة.'
             : 'Your mind is like a vast library — it needs a system to access important books quickly.'
-        });
+        };
+        setResult(fallbackData);
+        
+        // Save fallback results to localStorage
+        localStorage.setItem('nexus_results', JSON.stringify({
+          ...fallbackData,
+          timestamp: new Date().toISOString()
+        }));
       }
     };
 

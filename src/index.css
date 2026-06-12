@@ -215,6 +215,19 @@ body {
   line-height: 1.6;
 }
 
+.welcome-back-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .welcome-back-actions {
+    flex-direction: row;
+  }
+}
+
 /* Test page styles */
 .test-container {
   display: flex;

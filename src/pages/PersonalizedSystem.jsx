@@ -13,12 +13,25 @@ function PersonalizedSystem({ answers, mindType, onRestart }) {
       try {
         const data = await buildSystem(answers, mindType, i18n.language);
         setSystem(data);
+        
+        // Save system data to localStorage
+        const existingResults = JSON.parse(localStorage.getItem('nexus_results') || '{}');
+        localStorage.setItem('nexus_results', JSON.stringify({
+          ...existingResults,
+          patterns: data.patterns,
+          dailyRoutine: data.dailyRoutine,
+          systemTitle: data.systemTitle,
+          coreRule: data.coreRule,
+          firstStep: data.firstStep,
+          warningToAvoid: data.warningToAvoid
+        }));
+        
         setLoading(false);
       } catch (err) {
         console.error('Error building system:', err);
         setLoading(false);
         // Fallback data
-        setSystem({
+        const fallbackData = {
           systemTitle: i18n.language === 'ar' ? 'نظام المعالج العميق' : 'Deep Processor System',
           coreRule: i18n.language === 'ar'
             ? 'امنح عقلك الوقت الذي يحتاجه، لكن هيكل هذا الوقت بوضوح.'
@@ -72,7 +85,15 @@ function PersonalizedSystem({ answers, mindType, onRestart }) {
           warningToAvoid: i18n.language === 'ar'
             ? 'لا تحاول إجبار نفسك على القرارات السريعة — هذا ضد طبيعة عقلك'
             : 'Don\'t force yourself into quick decisions — this goes against your mind\'s nature'
-        });
+        };
+        setSystem(fallbackData);
+        
+        // Save fallback system data to localStorage
+        const existingResults = JSON.parse(localStorage.getItem('nexus_results') || '{}');
+        localStorage.setItem('nexus_results', JSON.stringify({
+          ...existingResults,
+          ...fallbackData
+        }));
       }
     };
 
@@ -83,6 +104,13 @@ function PersonalizedSystem({ answers, mindType, onRestart }) {
     const url = window.location.href;
     navigator.clipboard.writeText(url);
     alert(i18n.language === 'ar' ? 'تم نسخ الرابط!' : 'Link copied!');
+  };
+
+  const handleReset = () => {
+    if (i18n.language === 'ar' ? confirm('هل أنت متأكد أنك تريد حذف جميع بياناتك والبدء من جديد؟') : confirm('Are you sure you want to clear all your data and start fresh?')) {
+      localStorage.removeItem('nexus_results');
+      onRestart();
+    }
   };
 
   if (loading) {
@@ -169,6 +197,9 @@ function PersonalizedSystem({ answers, mindType, onRestart }) {
           <div className="system-actions">
             <button className="button secondary" onClick={handleShare}>
               {t('system.share')}
+            </button>
+            <button className="button secondary" onClick={handleReset}>
+              {i18n.language === 'ar' ? 'إعادة تعيين' : 'Reset'}
             </button>
             <button className="button" onClick={onRestart}>
               {t('landing.button')}

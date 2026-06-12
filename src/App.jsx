@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Analytics } from '@vercel/analytics/react';
 import './i18n';
 import './index.css';
 import Landing from './pages/Landing';
+import WelcomeBack from './pages/WelcomeBack';
 import DeepTest from './pages/DeepTest';
 import Results from './pages/Results';
 import PersonalizedSystem from './pages/PersonalizedSystem';
@@ -12,6 +14,8 @@ function App() {
   const { i18n } = useTranslation();
   const [answers, setAnswers] = useState([]);
   const [mindType, setMindType] = useState(null);
+  const [savedData, setSavedData] = useState(null);
+  const [showWelcomeBack, setShowWelcomeBack] = useState(false);
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'ar' : 'en';
@@ -32,12 +36,16 @@ function App() {
         addAnswer={addAnswer}
         mindType={mindType}
         setMindType={setMindType}
+        savedData={savedData}
+        setSavedData={setSavedData}
+        showWelcomeBack={showWelcomeBack}
+        setShowWelcomeBack={setShowWelcomeBack}
       />
     </Router>
   );
 }
 
-function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType }) {
+function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType, savedData, setSavedData, showWelcomeBack, setShowWelcomeBack }) {
   const { i18n } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
@@ -47,9 +55,39 @@ function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType 
     document.documentElement.lang = i18n.language;
   }, [i18n.language]);
 
+  useEffect(() => {
+    // Check for saved results on initial load
+    const savedResults = localStorage.getItem('nexus_results');
+    if (savedResults) {
+      const data = JSON.parse(savedResults);
+      setSavedData(data);
+      setShowWelcomeBack(true);
+    }
+  }, []);
+
   const resetTest = () => {
+    localStorage.removeItem('nexus_results');
+    setSavedData(null);
+    setShowWelcomeBack(false);
+    setAnswers([]);
+    setMindType(null);
     navigate('/');
     window.location.reload();
+  };
+
+  const handleViewSystem = () => {
+    if (savedData) {
+      setMindType(savedData.mindType);
+      navigate('/system');
+    }
+  };
+
+  const handleRetakeTest = () => {
+    localStorage.removeItem('nexus_results');
+    setSavedData(null);
+    setShowWelcomeBack(false);
+    setAnswers([]);
+    navigate('/test');
   };
 
   return (
@@ -59,7 +97,20 @@ function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType 
       </button>
 
       <Routes>
-        <Route path="/" element={<Landing onStart={() => navigate('/test')} />} />
+        <Route 
+          path="/" 
+          element={
+            showWelcomeBack && savedData ? (
+              <WelcomeBack 
+                savedData={savedData}
+                onViewSystem={handleViewSystem}
+                onRetakeTest={handleRetakeTest}
+              />
+            ) : (
+              <Landing onStart={() => navigate('/test')} />
+            )
+          } 
+        />
         <Route 
           path="/test" 
           element={
@@ -85,13 +136,14 @@ function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType 
           path="/system" 
           element={
             <PersonalizedSystem 
-              answers={answers}
+              answers={savedData?.answers || answers}
               mindType={mindType}
               onRestart={resetTest}
             />
           } 
         />
       </Routes>
+      <Analytics />
     </div>
   );
 }

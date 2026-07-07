@@ -10,7 +10,6 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
   const [error, setError] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const [feedbackReason, setFeedbackReason] = useState('');
-  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -18,8 +17,7 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
         const data = await analyzeMind(answers, i18n.language);
         setResult(data);
         setMindType(data.mindType);
-        
-        // Save results to localStorage
+
         localStorage.setItem('nexus_results', JSON.stringify({
           mindType: data.mindType,
           mindTypeAR: data.mindTypeAR,
@@ -27,19 +25,20 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
           strengths: data.strengths,
           challenges: data.challenges,
           insight: data.insight,
+          answers,
           timestamp: new Date().toISOString()
         }));
-        
+
         setLoading(false);
       } catch (err) {
         console.error('Error analyzing mind:', err);
         setError(true);
         setLoading(false);
-        // Fallback data
+
         const fallbackData = {
           mindType: i18n.language === 'ar' ? 'المعالج العميق' : 'Deep Processor',
           mindTypeAR: 'المعالج العميق',
-          description: i18n.language === 'ar' 
+          description: i18n.language === 'ar'
             ? 'عقلك يعمل بعمق ويحتاج وقتاً للمعالجة. هذا ليس عيباً بل قوة عندما تُستخدم بشكل صحيح.'
             : 'Your mind works deeply and needs time to process. This is not a flaw but a strength when used correctly.',
           strengths: i18n.language === 'ar'
@@ -53,10 +52,10 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
             : 'Your mind is like a vast library — it needs a system to access important books quickly.'
         };
         setResult(fallbackData);
-        
-        // Save fallback results to localStorage
+
         localStorage.setItem('nexus_results', JSON.stringify({
           ...fallbackData,
+          answers,
           timestamp: new Date().toISOString()
         }));
       }
@@ -65,29 +64,35 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
     fetchResults();
   }, [answers, i18n.language, setMindType]);
 
-  const handleFeedback = async (isAccurate) => {
-    setFeedback(isAccurate ? 'accurate' : 'inaccurate');
-    
+  const saveFeedback = async (value, reason = feedbackReason) => {
     const feedbackData = {
       timestamp: new Date().toISOString(),
-      mindType: result?.mindType,
-      feedback: isAccurate ? 'accurate' : 'inaccurate',
-      reason: feedbackReason,
+      mindType: result?.mindType || '',
+      feedback: value,
+      reason,
       language: i18n.language,
+      answers,
       userAgent: navigator.userAgent
     };
 
-    // Save to localStorage
+    setFeedback(value);
     localStorage.setItem('nexus_feedback', JSON.stringify(feedbackData));
 
-    // Send to Google Sheets
-    await sendFeedbackToGoogleSheets(feedbackData);
-    
-    setFeedbackSubmitted(true);
+    try {
+      await sendFeedbackToGoogleSheets(feedbackData);
+    } catch (err) {
+      console.error('Error sending feedback:', err);
+    }
   };
 
-  const handleReasonChange = (e) => {
-    setFeedbackReason(e.target.value);
+  const handleReasonChange = (event) => {
+    setFeedbackReason(event.target.value);
+  };
+
+  const handleReasonBlur = () => {
+    if (feedback) {
+      saveFeedback(feedback, feedbackReason);
+    }
   };
 
   if (loading) {
@@ -110,10 +115,10 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
           <div className="mind-type-badge">
             {result.mindType}
           </div>
-          
+
           <h2 className="results-title">{t('results.description')}</h2>
           <p className="results-description">{result.description}</p>
-          
+
           <div className="strengths-section">
             <h3 className="section-title">{t('results.strengths')}</h3>
             <ul className="strengths-list">
@@ -122,7 +127,7 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
               ))}
             </ul>
           </div>
-          
+
           <div className="challenges-section">
             <h3 className="section-title">{t('results.challenges')}</h3>
             <ul className="challenges-list">
@@ -131,46 +136,37 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
               ))}
             </ul>
           </div>
-          
+
           <div className="insight-box">
             <p className="insight-text">"{result.insight}"</p>
           </div>
-          
-          {!feedbackSubmitted && (
-            <div className="feedback-section">
-              <h3 className="feedback-title">
-                {i18n.language === 'ar' ? 'هل هذا دقيق؟' : 'Did we get this right?'}
-              </h3>
-              <div className="feedback-buttons">
-                <button 
-                  className="button feedback-accurate" 
-                  onClick={() => handleFeedback(true)}
-                >
-                  {i18n.language === 'ar' ? 'نعم، هذا يبدو دقيقاً' : 'Yes, this feels accurate'}
-                </button>
-                <button 
-                  className="button feedback-inaccurate" 
-                  onClick={() => handleFeedback(false)}
-                >
-                  {i18n.language === 'ar' ? 'لا، هذا لا يصفني' : 'No, this doesn\'t describe me'}
-                </button>
-              </div>
-              {feedback && (
-                <div className="feedback-reason">
-                  <textarea
-                    className="feedback-textarea"
-                    placeholder={i18n.language === 'ar' 
-                      ? 'اختياري: لماذا تشعر أن هذا غير دقيق؟' 
-                      : 'Optional: Why do you feel this is inaccurate?'}
-                    value={feedbackReason}
-                    onChange={handleReasonChange}
-                    onBlur={() => handleFeedback(feedback === 'accurate')}
-                  />
-                </div>
-              )}
+
+          <div className="feedback-section">
+            <p className="feedback-title">?Did this feel accurate</p>
+            <div className="feedback-buttons">
+              <button
+                className={`button feedback-accurate ${feedback === 'accurate' ? 'selected' : ''}`}
+                onClick={() => saveFeedback('accurate')}
+              >
+                Yes👍
+              </button>
+              <button
+                className={`button feedback-inaccurate ${feedback === 'inaccurate' ? 'selected' : ''}`}
+                onClick={() => saveFeedback('inaccurate')}
+              >
+                Not really👎
+              </button>
             </div>
-          )}
-          
+            <textarea
+              className="feedback-textarea"
+              placeholder="(اختياري) Tell us why"
+              value={feedbackReason}
+              onChange={handleReasonChange}
+              onBlur={handleReasonBlur}
+              rows="2"
+            />
+          </div>
+
           <button className="button" onClick={onBuildSystem}>
             {t('results.button')}
           </button>

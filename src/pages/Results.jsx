@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { analyzeMind } from '../utils/claudeAPI';
+import { sendFeedbackToGoogleSheets } from '../utils/googleSheets';
 
 function Results({ answers, mindType, setMindType, onBuildSystem }) {
   const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+  const [feedbackReason, setFeedbackReason] = useState('');
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -61,6 +65,31 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
     fetchResults();
   }, [answers, i18n.language, setMindType]);
 
+  const handleFeedback = async (isAccurate) => {
+    setFeedback(isAccurate ? 'accurate' : 'inaccurate');
+    
+    const feedbackData = {
+      timestamp: new Date().toISOString(),
+      mindType: result?.mindType,
+      feedback: isAccurate ? 'accurate' : 'inaccurate',
+      reason: feedbackReason,
+      language: i18n.language,
+      userAgent: navigator.userAgent
+    };
+
+    // Save to localStorage
+    localStorage.setItem('nexus_feedback', JSON.stringify(feedbackData));
+
+    // Send to Google Sheets
+    await sendFeedbackToGoogleSheets(feedbackData);
+    
+    setFeedbackSubmitted(true);
+  };
+
+  const handleReasonChange = (e) => {
+    setFeedbackReason(e.target.value);
+  };
+
   if (loading) {
     return (
       <div className="page page-enter-active">
@@ -106,6 +135,41 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
           <div className="insight-box">
             <p className="insight-text">"{result.insight}"</p>
           </div>
+          
+          {!feedbackSubmitted && (
+            <div className="feedback-section">
+              <h3 className="feedback-title">
+                {i18n.language === 'ar' ? 'هل هذا دقيق؟' : 'Did we get this right?'}
+              </h3>
+              <div className="feedback-buttons">
+                <button 
+                  className="button feedback-accurate" 
+                  onClick={() => handleFeedback(true)}
+                >
+                  {i18n.language === 'ar' ? 'نعم، هذا يبدو دقيقاً' : 'Yes, this feels accurate'}
+                </button>
+                <button 
+                  className="button feedback-inaccurate" 
+                  onClick={() => handleFeedback(false)}
+                >
+                  {i18n.language === 'ar' ? 'لا، هذا لا يصفني' : 'No, this doesn\'t describe me'}
+                </button>
+              </div>
+              {feedback && (
+                <div className="feedback-reason">
+                  <textarea
+                    className="feedback-textarea"
+                    placeholder={i18n.language === 'ar' 
+                      ? 'اختياري: لماذا تشعر أن هذا غير دقيق؟' 
+                      : 'Optional: Why do you feel this is inaccurate?'}
+                    value={feedbackReason}
+                    onChange={handleReasonChange}
+                    onBlur={() => handleFeedback(feedback === 'accurate')}
+                  />
+                </div>
+              )}
+            </div>
+          )}
           
           <button className="button" onClick={onBuildSystem}>
             {t('results.button')}

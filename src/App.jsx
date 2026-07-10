@@ -82,6 +82,13 @@ function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType,
     }
   };
 
+  const getSavedSystemData = () => {
+    if (savedData && savedData.patterns) {
+      return savedData;
+    }
+    return null;
+  };
+
   const handleRetakeTest = () => {
     localStorage.removeItem('nexus_results');
     setSavedData(null);
@@ -139,6 +146,7 @@ function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType,
               answers={savedData?.answers || answers}
               mindType={mindType}
               onRestart={resetTest}
+              savedSystemData={getSavedSystemData()}
             />
           } 
         />

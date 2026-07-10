@@ -2,13 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { buildSystem } from '../utils/claudeAPI';
 
-function PersonalizedSystem({ answers, mindType, onRestart }) {
+function PersonalizedSystem({ answers, mindType, onRestart, savedSystemData }) {
   const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [system, setSystem] = useState(null);
   const [expandedPattern, setExpandedPattern] = useState(null);
 
   useEffect(() => {
+    // If we have saved system data (from Welcome Back), use it directly
+    if (savedSystemData && savedSystemData.patterns) {
+      setSystem(savedSystemData);
+      setLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch from API (fresh test)
     const fetchSystem = async () => {
       try {
         const data = await buildSystem(answers, mindType, i18n.language);
@@ -98,7 +106,7 @@ function PersonalizedSystem({ answers, mindType, onRestart }) {
     };
 
     fetchSystem();
-  }, [answers, mindType, i18n.language]);
+  }, [answers, mindType, i18n.language, savedSystemData]);
 
   const handleShare = () => {
     const url = window.location.href;

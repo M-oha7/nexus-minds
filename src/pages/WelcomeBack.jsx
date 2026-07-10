@@ -5,35 +5,36 @@ function WelcomeBack({ savedData, onViewSystem, onRetakeTest }) {
   const { t, i18n } = useTranslation();
 
   return (
-    <div className="page page-enter-active landing-page">
+    <div className="page page-enter-active welcome-back-page">
       <img 
-        src="https://i.imgur.com/jY8EoX4.jpg" 
+        src="https://images.unsplash.com/photo-1515630278258-407f66498911?w=1920&q=80" 
         alt="" 
-        className="landing-background"
+        className="welcome-back-background"
       />
-      <div className="landing-overlay"></div>
-      <div className="landing-container">
-        <div className="card landing-card">
-          <h1 className="landing-title">
+      <div className="welcome-back-overlay"></div>
+      <div className="welcome-back-container">
+        <div className="welcome-back-popup">
+          <div className="neon-border"></div>
+          <h1 className="welcome-back-title">
             {i18n.language === 'ar' ? 'أهلاً بعودتك' : 'Welcome Back'}
           </h1>
-          <h2 className="landing-subtitle">
+          <h2 className="welcome-back-subtitle">
             {i18n.language === 'ar' 
               ? `نوع عقلك: ${savedData.mindTypeAR || savedData.mindType}`
               : `Your mind type: ${savedData.mindType}`
             }
           </h2>
-          <p className="landing-description">
+          <p className="welcome-back-description">
             {i18n.language === 'ar'
               ? 'لقد أكملت الاختبار بالفعل. يمكنك عرض نظامك الشخصي أو إعادة الاختبار.'
               : 'You have already completed the test. You can view your personalized system or retake the test.'
             }
           </p>
           <div className="welcome-back-actions">
-            <button className="button" onClick={onViewSystem}>
+            <button className="button neon-button" onClick={onViewSystem}>
               {i18n.language === 'ar' ? 'عرض نظامي' : 'View My System'}
             </button>
-            <button className="button secondary" onClick={onRetakeTest}>
+            <button className="button secondary neon-secondary" onClick={onRetakeTest}>
               {i18n.language === 'ar' ? 'إعادة الاختبار' : 'Retake the Test'}
             </button>
           </div>

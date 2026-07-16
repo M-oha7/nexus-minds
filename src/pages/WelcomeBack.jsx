@@ -2,43 +2,40 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 function WelcomeBack({ savedData, onViewSystem, onRetakeTest }) {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
+  const mindType = isArabic
+    ? savedData.mindTypeAR || savedData.mindType
+    : savedData.mindType;
 
   return (
-    <div className="page page-enter-active welcome-back-page">
-      <img 
-        src="https://images.unsplash.com/photo-1515630278258-407f66498911?w=1920&q=80" 
-        alt="" 
-        className="welcome-back-background"
-      />
-      <div className="welcome-back-overlay"></div>
-      <div className="welcome-back-container">
-        <div className="welcome-back-popup">
-          <div className="neon-border"></div>
-          <h1 className="welcome-back-title">
-            {i18n.language === 'ar' ? 'أهلاً بعودتك' : 'Welcome Back'}
+    <div className="page page-enter-active welcome-page">
+      <div className="welcome-watermark" aria-hidden="true">
+        Nexus Minds
+      </div>
+      <div className="welcome-container">
+        <main className="welcome-panel">
+          <p className="landing-logo">Nexus Minds</p>
+          <h1 className="welcome-title">
+            {isArabic ? 'أهلاً بعودتك' : 'Welcome back'}
           </h1>
-          <h2 className="welcome-back-subtitle">
-            {i18n.language === 'ar' 
-              ? `نوع عقلك: ${savedData.mindTypeAR || savedData.mindType}`
-              : `Your mind type: ${savedData.mindType}`
-            }
-          </h2>
-          <p className="welcome-back-description">
-            {i18n.language === 'ar'
-              ? 'لقد أكملت الاختبار بالفعل. يمكنك عرض نظامك الشخصي أو إعادة الاختبار.'
-              : 'You have already completed the test. You can view your personalized system or retake the test.'
-            }
+          <p className="welcome-type">
+            {isArabic ? `نوع عقلك: ${mindType}` : `Your mind type: ${mindType}`}
+          </p>
+          <p className="welcome-copy">
+            {isArabic
+              ? 'نتيجتك محفوظة. يمكنك فتح نظامك الشخصي أو إعادة الاختبار من البداية.'
+              : 'Your result is saved. You can open your personal system or retake the test from the beginning.'}
           </p>
           <div className="welcome-back-actions">
-            <button className="button neon-button" onClick={onViewSystem}>
-              {i18n.language === 'ar' ? 'عرض نظامي' : 'View My System'}
+            <button className="button" onClick={onViewSystem}>
+              {isArabic ? 'عرض نظامي' : 'View my system'}
             </button>
-            <button className="button secondary neon-secondary" onClick={onRetakeTest}>
-              {i18n.language === 'ar' ? 'إعادة الاختبار' : 'Retake the Test'}
+            <button className="button secondary" onClick={onRetakeTest}>
+              {isArabic ? 'إعادة الاختبار' : 'Retake the test'}
             </button>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

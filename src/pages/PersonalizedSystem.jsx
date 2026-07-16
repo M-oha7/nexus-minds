@@ -9,14 +9,12 @@ function PersonalizedSystem({ answers, mindType, onRestart, savedSystemData }) {
   const [expandedPattern, setExpandedPattern] = useState(null);
 
   useEffect(() => {
-    // If we have saved system data (from Welcome Back), use it directly
-    if (savedSystemData && savedSystemData.patterns) {
+    if (savedSystemData?.patterns && savedSystemData?.dailyRoutine && savedSystemData?.systemTitle) {
       setSystem(savedSystemData);
       setLoading(false);
       return;
     }
 
-    // Otherwise, fetch from API (fresh test)
     const fetchSystem = async () => {
       try {
         const data = await buildSystem(answers, mindType, i18n.language);

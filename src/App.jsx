@@ -78,6 +78,8 @@ function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType,
   const handleViewSystem = () => {
     if (savedData) {
       setMindType(savedData.mindType);
+      setAnswers(savedData.answers || []);
+      setShowWelcomeBack(false);
       navigate('/system');
     }
   };
@@ -145,6 +147,7 @@ function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType,
             <PersonalizedSystem 
               answers={savedData?.answers || answers}
               mindType={mindType}
+              savedData={savedData}
               onRestart={resetTest}
               savedSystemData={getSavedSystemData()}
             />

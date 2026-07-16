@@ -359,6 +359,77 @@ body {
   flex-direction: column;
 }
 
+.welcome-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(37, 87, 214, 0.1), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.welcome-watermark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 0;
+  color: rgba(37, 87, 214, 0.07);
+  font-size: clamp(72px, 15vw, 220px);
+  font-weight: 800;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  animation: welcomeFloat 8s ease-in-out infinite;
+}
+
+@keyframes welcomeFloat {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -54%) scale(1.03);
+  }
+}
+
+.welcome-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 96px 20px 48px;
+}
+
+.welcome-panel {
+  width: 100%;
+  max-width: 640px;
+  text-align: center;
+}
+
+.welcome-title {
+  color: var(--text-primary);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.welcome-type {
+  color: var(--accent);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.welcome-copy {
+  color: var(--text-secondary);
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 0 auto 30px;
+  max-width: 540px;
+}
+
 @media (min-width: 768px) {
   .welcome-back-actions {
     flex-direction: row;
@@ -1003,6 +1074,14 @@ body {
   .button {
     padding: 14px 24px;
     font-size: 14px;
+  }
+
+  .welcome-title {
+    font-size: 36px;
+  }
+
+  .welcome-type {
+    font-size: 18px;
   }
 
   .landing-title {

@@ -11,6 +11,24 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
   const [feedback, setFeedback] = useState(null);
   const [feedbackReason, setFeedbackReason] = useState('');
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+  const [matchPercentage, setMatchPercentage] = useState(0);
+
+  // Calculate pattern match percentage based on answer consistency
+  const calculateMatchPercentage = (answers) => {
+    if (answers.length === 0) return 0;
+    
+    // Count frequency of each tag
+    const tagCounts = {};
+    answers.forEach(answer => {
+      tagCounts[answer] = (tagCounts[answer] || 0) + 1;
+    });
+    
+    // Find the most common tag
+    const maxCount = Math.max(...Object.values(tagCounts));
+    const percentage = Math.round((maxCount / answers.length) * 100);
+    
+    return Math.min(Math.max(percentage, 65), 92); // Keep between 65-92%
+  };
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -18,6 +36,10 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
         const data = await analyzeMind(answers, i18n.language);
         setResult(data);
         setMindType(data.mindType);
+        
+        // Calculate match percentage
+        const percentage = calculateMatchPercentage(answers);
+        setMatchPercentage(percentage);
         
         // Save results to localStorage
         localStorage.setItem('nexus_results', JSON.stringify({
@@ -27,6 +49,7 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
           strengths: data.strengths,
           challenges: data.challenges,
           insight: data.insight,
+          matchPercentage: percentage,
           timestamp: new Date().toISOString()
         }));
         
@@ -36,6 +59,9 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
         setError(true);
         setLoading(false);
         // Fallback data
+        const percentage = calculateMatchPercentage(answers);
+        setMatchPercentage(percentage);
+        
         const fallbackData = {
           mindType: i18n.language === 'ar' ? 'المعالج العميق' : 'Deep Processor',
           mindTypeAR: 'المعالج العميق',
@@ -57,6 +83,7 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
         // Save fallback results to localStorage
         localStorage.setItem('nexus_results', JSON.stringify({
           ...fallbackData,
+          matchPercentage: percentage,
           timestamp: new Date().toISOString()
         }));
       }
@@ -90,6 +117,23 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
     setFeedbackReason(e.target.value);
   };
 
+  const handleShare = () => {
+    const shareText = i18n.language === 'ar'
+      ? `نمط عقلي: ${result.mindTypeAR || result.mindType}\nتطابق: ${matchPercentage}%\nاكتشف نمط عقلك في Nexus Minds`
+      : `My Mind Pattern: ${result.mindType}\nMatch: ${matchPercentage}%\nDiscover your mind pattern at Nexus Minds`;
+    
+    if (navigator.share) {
+      navigator.share({
+        title: i18n.language === 'ar' ? 'نمط عقلي - Nexus Minds' : 'My Mind Pattern - Nexus Minds',
+        text: shareText,
+        url: window.location.href
+      });
+    } else {
+      navigator.clipboard.writeText(`${shareText}\n${window.location.href}`);
+      alert(i18n.language === 'ar' ? 'تم نسخ النتيجة!' : 'Result copied!');
+    }
+  };
+
   if (loading) {
     return (
       <div className="page page-enter-active">
@@ -107,12 +151,40 @@ function Results({ answers, mindType, setMindType, onBuildSystem }) {
     <div className="page page-enter-active">
       <div className="results-container">
         <div className="card results-card">
-          <div className="mind-type-badge">
-            {result.mindType}
+          {/* Pattern Card */}
+          <div className="pattern-card">
+            <div className="pattern-header">
+              <span className="pattern-label">{t('results.pattern')}</span>
+              <button className="share-icon" onClick={handleShare} title={t('results.share')}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                  <polyline points="16 6 12 2 8 6"/>
+                  <line x1="12" y1="2" x2="12" y2="15"/>
+                </svg>
+              </button>
+            </div>
+            <h1 className="pattern-name">{result.mindType}</h1>
+            <div className="pattern-match">
+              <span className="match-text">{t('results.basedOn')}</span>
+              <span className="match-percentage">{matchPercentage}%</span>
+              <span className="match-label">{t('results.percentage')}</span>
+            </div>
           </div>
           
           <h2 className="results-title">{t('results.description')}</h2>
           <p className="results-description">{result.description}</p>
+          
+          {/* Observable Behaviors */}
+          <div className="observable-section">
+            <h3 className="section-title">{t('results.observable')}</h3>
+            <ul className="behaviors-list">
+              <li className="behavior-item">{t('results.behaviors.b1')}</li>
+              <li className="behavior-item">{t('results.behaviors.b2')}</li>
+              <li className="behavior-item">{t('results.behaviors.b3')}</li>
+              <li className="behavior-item">{t('results.behaviors.b4')}</li>
+              <li className="behavior-item">{t('results.behaviors.b5')}</li>
+            </ul>
+          </div>
           
           <div className="strengths-section">
             <h3 className="section-title">{t('results.strengths')}</h3>

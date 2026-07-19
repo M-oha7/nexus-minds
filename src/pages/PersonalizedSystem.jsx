@@ -188,6 +188,60 @@ function PersonalizedSystem({ answers, mindType, onRestart, savedSystemData }) {
             </div>
           </div>
           
+          {/* Decision Making Framework */}
+          <div className="framework-section">
+            <h3 className="section-title">{t('system.decisionMaking')}</h3>
+            <div className="framework-steps">
+              <div className="framework-step">
+                <span className="step-number">1</span>
+                <p className="step-text">{t('system.decisionFramework.step1')}</p>
+              </div>
+              <div className="framework-step">
+                <span className="step-number">2</span>
+                <p className="step-text">{t('system.decisionFramework.step2')}</p>
+              </div>
+              <div className="framework-step">
+                <span className="step-number">3</span>
+                <p className="step-text">{t('system.decisionFramework.step3')}</p>
+              </div>
+              <div className="framework-step">
+                <span className="step-number">4</span>
+                <p className="step-text">{t('system.decisionFramework.step4')}</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Learning Method */}
+          <div className="framework-section">
+            <h3 className="section-title">{t('system.learning')}</h3>
+            <div className="learning-grid">
+              <div className="learning-item">
+                <h4 className="learning-label">{t('system.learningMethod.principle')}</h4>
+                <p className="learning-text">{t('system.learningMethod.technique')}</p>
+                <p className="learning-text">{t('system.learningMethod.review')}</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Distraction Management */}
+          <div className="framework-section">
+            <h3 className="section-title">{t('system.distraction')}</h3>
+            <div className="distraction-list">
+              <div className="distraction-item">
+                <span className="distraction-icon">🎯</span>
+                <p className="distraction-text">{t('system.distractionManagement.identify')}</p>
+              </div>
+              <div className="distraction-item">
+                <span className="distraction-icon">🏠</span>
+                <p className="distraction-text">{t('system.distractionManagement.environment')}</p>
+              </div>
+              <div className="distraction-item">
+                <span className="distraction-icon">⏱️</span>
+                <p className="distraction-text">{t('system.distractionManagement.technique')}</p>
+              </div>
+            </div>
+          </div>
+          
           <div className="first-step-box">
             <h4 className="first-step-title">{t('system.firstStep')}</h4>
             <p className="first-step-text">{system.firstStep}</p>

@@ -106,9 +106,21 @@ const resources = {
       },
       results: {
         loading: "Analyzing your mind patterns...",
+        pattern: "My Mind Pattern",
+        basedOn: "Based on your answers, you tend toward",
+        percentage: "match",
         strengths: "Strengths",
         challenges: "Challenges",
-        button: "Build Your System"
+        button: "Build Your System",
+        share: "Share Result",
+        observable: "Observable behaviors that match this pattern:",
+        behaviors: {
+          b1: "When facing a problem, do you start by gathering a lot of information before deciding?",
+          b2: "Do you prefer working alone for long periods to complete a task?",
+          b3: "Do you lose enthusiasm when tasks become repetitive?",
+          b4: "Do you need complete silence to think clearly?",
+          b5: "Do you analyze conversations even after they end?"
+        }
       },
       system: {
         loading: "Building your personalized system...",
@@ -119,7 +131,26 @@ const resources = {
         firstStep: "First Step",
         warning: "What to avoid",
         coreRule: "Core Rule",
-        share: "Share"
+        share: "Share",
+        decisionMaking: "Decision Making Framework",
+        learning: "Learning Method",
+        distraction: "Managing Distraction",
+        decisionFramework: {
+          step1: "Pause for 30 seconds before deciding",
+          step2: "Write down 3 options",
+          step3: "Rate each option 1-10",
+          step4: "Choose and commit"
+        },
+        learningMethod: {
+          principle: "Learn in focused 25-minute sessions",
+          technique: "Teach what you learn to someone else",
+          review: "Review notes after 24 hours"
+        },
+        distractionManagement: {
+          identify: "Identify your main distraction triggers",
+          environment: "Create a distraction-free environment",
+          technique: "Use the 2-minute rule for quick tasks"
+        }
       },
       reflections: {
         overflow: "Your mind runs at high capacity — it hasn't learned to prioritize yet",
@@ -245,9 +276,21 @@ const resources = {
       },
       results: {
         loading: "جارٍ تحليل طريقة تفكيرك...",
+        pattern: "نمط عقلي",
+        basedOn: "بناءً على إجاباتك، تميل نحو",
+        percentage: "تطابق",
         strengths: "نقاط القوة",
         challenges: "التحديات",
-        button: "ابدأ بناء نظامك"
+        button: "ابدأ بناء نظامك",
+        share: "مشاركة النتيجة",
+        observable: "سلوكيات قابلة للملاحظة تطابق هذا النمط:",
+        behaviors: {
+          b1: "عند مواجهة مشكلة، هل تبدأ بجمع معلومات كثيرة قبل اتخاذ قرار؟",
+          b2: "هل تفضل العمل وحدك لفترات طويلة لإنهاء مهمة؟",
+          b3: "هل تفقد الحماس عندما تكون المهام متكررة؟",
+          b4: "هل تحتاج صمتاً تاماً للتفكير بوضوح؟",
+          b5: "هل تحلل المحادثات حتى بعد انتهائها؟"
+        }
       },
       system: {
         loading: "جارٍ بناء نظامك الشخصي...",
@@ -258,7 +301,26 @@ const resources = {
         firstStep: "الخطوة الأولى",
         warning: "ما يجب تجنبه",
         coreRule: "القاعدة الأساسية",
-        share: "مشاركة"
+        share: "مشاركة",
+        decisionMaking: "إطار اتخاذ القرار",
+        learning: "طريقة التعلم",
+        distraction: "إدارة التشتت",
+        decisionFramework: {
+          step1: "توقف 30 ثانية قبل اتخاذ القرار",
+          step2: "اكتب 3 خيارات",
+          step3: "قيم كل خيار من 1-10",
+          step4: "اختر والتزم"
+        },
+        learningMethod: {
+          principle: "تعلم في جلسات مركزة 25 دقيقة",
+          technique: "علّم ما تعلمته لشخص آخر",
+          review: "راجع ملاحظاتك بعد 24 ساعة"
+        },
+        distractionManagement: {
+          identify: "حدد محفزات التشتت الرئيسية",
+          environment: "أنشئ بيئة خالية من التشتت",
+          technique: "استخدم قاعدة الدقيقتين للمهام السريعة"
+        }
       },
       reflections: {
         overflow: "عقلك يعمل بطاقة عالية — لم يتعلم بعد كيف يُعطى الأولوية",

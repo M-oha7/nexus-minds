@@ -9,6 +9,8 @@ import WelcomeBack from './pages/WelcomeBack';
 import DeepTest from './pages/DeepTest';
 import Results from './pages/Results';
 import PersonalizedSystem from './pages/PersonalizedSystem';
+import Challenge from './pages/Challenge';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const { i18n } = useTranslation();
@@ -150,7 +152,23 @@ function AppContent({ toggleLanguage, answers, addAnswer, mindType, setMindType,
               savedData={savedData}
               onRestart={resetTest}
               savedSystemData={getSavedSystemData()}
+              onStartChallenge={() => navigate('/challenge')}
+              onViewDashboard={() => navigate('/dashboard')}
             />
+          } 
+        />
+        <Route 
+          path="/challenge" 
+          element={
+            <Challenge 
+              mindType={mindType}
+            />
+          } 
+        />
+        <Route 
+          path="/dashboard" 
+          element={
+            <Dashboard />
           } 
         />
       </Routes>

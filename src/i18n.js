@@ -8,7 +8,22 @@ const resources = {
         title: "You're not the problem.",
         subtitle: "The problem is how you manage your mind — and that can be learned.",
         description: "Not a personality test. Not a label. Just a mirror that reflects how your mind works — and builds a system around it.",
-        button: "Start the Test"
+        button: "Start the Test",
+        mission: "Our Mission",
+        missionText: "To help individuals understand and manage their minds through personalized psychological insights and practical systems.",
+        vision: "Our Vision",
+        visionText: "A world where everyone has access to tools that help them understand their unique mind and live more intentionally.",
+        problem: "The Problem",
+        problemText: "Most people don't understand how their minds work. They struggle with focus, decisions, and productivity because they use generic solutions that don't fit their unique psychology.",
+        principles: "Our Principles",
+        principlesList: [
+          "Every mind is unique and deserves personalized understanding",
+          "Psychological insights should be practical and actionable",
+          "Self-awareness is the foundation of growth",
+          "Small, consistent changes lead to transformation"
+        ],
+        coreIdea: "Core Idea",
+        coreIdeaText: "Your mind has patterns. When you understand them, you can work with your nature instead of against it."
       },
       test: {
         q1: {
@@ -150,6 +165,55 @@ const resources = {
           identify: "Identify your main distraction triggers",
           environment: "Create a distraction-free environment",
           technique: "Use the 2-minute rule for quick tasks"
+        },
+        challenge: {
+          title: "7-Day Mind Challenge",
+          subtitle: "Transform your mind in one week",
+          day1: "Day 1: Awareness",
+          day2: "Day 2: Focus",
+          day3: "Day 3: Decision",
+          day4: "Day 4: Learning",
+          day5: "Day 5: Environment",
+          day6: "Day 6: Reflection",
+          day7: "Day 7: Integration",
+          start: "Start Challenge",
+          progress: "Day {day} of 7",
+          complete: "Challenge Complete!",
+          task1: "Observe your thoughts for 10 minutes without judgment",
+          task2: "Work on one task for 25 minutes without distractions",
+          task3: "Practice your decision-making framework on a real decision",
+          task4: "Learn something new using your learning method",
+          task5: "Optimize your environment for your mind type",
+          task6: "Write down 3 insights about your mind this week",
+          task7: "Combine all practices into your daily routine"
+        },
+        dailyTip: {
+          title: "Daily Tip",
+          refresh: "New Tip",
+          tips: {
+            t1: "Before starting any task, take 30 seconds to clarify what 'done' looks like.",
+            t2: "Your mind works best when you honor its natural rhythm. Don't force focus when you need rest.",
+            t3: "Write down thoughts that loop in your mind. Externalizing them frees mental space.",
+            t4: "The best decision is often the one you can commit to fully. Indecision drains energy.",
+            t5: "Protect your peak energy hours for your most important work.",
+            t6: "When overwhelmed, reduce to ONE thing. Everything else can wait.",
+            t7: "Your environment shapes your mind more than you think. Design it intentionally."
+          }
+        },
+        dashboard: {
+          title: "Your Progress",
+          testDate: "Test completed on",
+          daysSince: "Days since first test",
+          challengeProgress: "Challenge progress",
+          challengeNotStarted: "Not started",
+          challengeCompleted: "Completed",
+          challengeInProgress: "In progress",
+          tipsViewed: "Tips viewed",
+          systemsBuilt: "Systems built",
+          mindType: "Your mind type",
+          streak: "Day streak",
+          viewChallenge: "View Challenge",
+          viewSystem: "View System"
         }
       },
       reflections: {
@@ -178,7 +242,22 @@ const resources = {
         title: "أنت لست المشكلة",
         subtitle: "المشكلة كيف تدير عقلك — وهذا شيء يمكن تعلمه",
         description: "ليس اختبار شخصية. ليس تصنيفاً. مجرد مرآة تعكس لك طريقة عقلك — وتبني لك نظاماً يعمل معك.",
-        button: "ابدأ الاختبار"
+        button: "ابدأ الاختبار",
+        mission: "مهمتنا",
+        missionText: "مساعدة الأفراد على فهم وإدارة عقولهم من خلال رؤى نفسية شخصية وأنظمة عملية.",
+        vision: "رؤيتنا",
+        visionText: "عالم يمتلك فيه الجميع أدوات تساعدهم على فهم عقلهم الفريد والعيش بقصد أكبر.",
+        problem: "المشكلة",
+        problemText: "معظم الناس لا يفهمون كيف تعمل عقولهم. يعانون من التركيز والقرارات والإنتاجية لأنهم يستخدمون حلولاً عامة لا تناسب نفسيتهم الفريدة.",
+        principles: "مبادئنا",
+        principlesList: [
+          "كل عقل فريد ويستحق فهماً شخصياً",
+          "الرؤى النفسية يجب أن تكون عملية وقابلة للتطبيق",
+          "الوعي الذاتي هو أساس النمو",
+          "التغييرات الصغيرة والمتسقة تؤدي إلى التحول"
+        ],
+        coreIdea: "الفكرة الأساسية",
+        coreIdeaText: "عقلك له أنماط. عندما تفهمها، يمكنك العمل مع طبيعتك بدلاً من ضدها."
       },
       test: {
         q1: {
@@ -320,6 +399,55 @@ const resources = {
           identify: "حدد محفزات التشتت الرئيسية",
           environment: "أنشئ بيئة خالية من التشتت",
           technique: "استخدم قاعدة الدقيقتين للمهام السريعة"
+        },
+        challenge: {
+          title: "تحدي العقل 7 أيام",
+          subtitle: "حوّل عقلك في أسبوع واحد",
+          day1: "اليوم 1: الوعي",
+          day2: "اليوم 2: التركيز",
+          day3: "اليوم 3: القرار",
+          day4: "اليوم 4: التعلم",
+          day5: "اليوم 5: البيئة",
+          day6: "اليوم 6: التأمل",
+          day7: "اليوم 7: التكامل",
+          start: "ابدأ التحدي",
+          progress: "اليوم {day} من 7",
+          complete: "اكتمل التحدي!",
+          task1: "راقب أفكارك لمدة 10 دقائق بدون حكم",
+          task2: "اعمل على مهمة واحدة لمدة 25 دقيقة بدون تشتت",
+          task3: "تدرب على إطار اتخاذ القرار على قرار حقيقي",
+          task4: "تعلم شيئاً جديداً باستخدام طريقة تعلمك",
+          task5: "حسّن بيئتك حسب نوع عقلك",
+          task6: "اكتب 3 رؤى عن عقلك هذا الأسبوع",
+          task7: "ادمج جميع الممارسات في روتينك اليومي"
+        },
+        dailyTip: {
+          title: "نصيحة يومية",
+          refresh: "نصيحة جديدة",
+          tips: {
+            t1: "قبل البدء في أي مهمة، خذ 30 ثانية لتوضيح شكل 'الإنجاز'.",
+            t2: "يعمل عقلك بشكل أفضل عندما تحترم إيقاعه الطبيعي. لا تفرض التركيز عندما تحتاج للراحة.",
+            t3: "اكتب الأفكار التي تدور في عقلك. إخراجها يوفر مساحة ذهنية.",
+            t4: "أفضل قرار غالباً هو الذي يمكنك الالتزام به تماماً. التردد يستنزف الطاقة.",
+            t5: "احمِ ساعات طاقتك القصوى لأهم أعمالك.",
+            t6: "عند الشعور بالإرهاق، قلل إلى شيء واحد. الباقي يمكن أن ينتظر.",
+            t7: "بيئتك تشكل عقلك أكثر مما تظن. صممها بعناية."
+          }
+        },
+        dashboard: {
+          title: "تقدمك",
+          testDate: "اكتمل الاختبار في",
+          daysSince: "أيام منذ أول اختبار",
+          challengeProgress: "تقدم التحدي",
+          challengeNotStarted: "لم يبدأ",
+          challengeCompleted: "مكتمل",
+          challengeInProgress: "قيد التقدم",
+          tipsViewed: "النصائح المشاهدة",
+          systemsBuilt: "الأنظمة المبنية",
+          mindType: "نوع عقلك",
+          streak: "أيام متتالية",
+          viewChallenge: "عرض التحدي",
+          viewSystem: "عرض النظام"
         }
       },
       reflections: {

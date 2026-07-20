@@ -2,11 +2,42 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { buildSystem } from '../utils/claudeAPI';
 
-function PersonalizedSystem({ answers, mindType, onRestart, savedSystemData }) {
+function PersonalizedSystem({ answers, mindType, onRestart, savedSystemData, onStartChallenge, onViewDashboard }) {
   const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [system, setSystem] = useState(null);
   const [expandedPattern, setExpandedPattern] = useState(null);
+  const [dailyTip, setDailyTip] = useState('');
+  const [tipIndex, setTipIndex] = useState(0);
+
+  const tips = [
+    t('system.dailyTip.tips.t1'),
+    t('system.dailyTip.tips.t2'),
+    t('system.dailyTip.tips.t3'),
+    t('system.dailyTip.tips.t4'),
+    t('system.dailyTip.tips.t5'),
+    t('system.dailyTip.tips.t6'),
+    t('system.dailyTip.tips.t7')
+  ];
+
+  useEffect(() => {
+    // Get tip based on day of year for consistency
+    const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+    const initialTipIndex = dayOfYear % tips.length;
+    setTipIndex(initialTipIndex);
+    setDailyTip(tips[initialTipIndex]);
+  }, [i18n.language]);
+
+  const refreshTip = () => {
+    const newIndex = (tipIndex + 1) % tips.length;
+    setTipIndex(newIndex);
+    setDailyTip(tips[newIndex]);
+    
+    // Track tip views
+    const tipsViewed = JSON.parse(localStorage.getItem('nexus_tips_viewed') || '{"count": 0}');
+    tipsViewed.count++;
+    localStorage.setItem('nexus_tips_viewed', JSON.stringify(tipsViewed));
+  };
 
   useEffect(() => {
     if (savedSystemData?.patterns && savedSystemData?.dailyRoutine && savedSystemData?.systemTitle) {
@@ -138,6 +169,17 @@ function PersonalizedSystem({ answers, mindType, onRestart, savedSystemData }) {
         <div className="card system-card">
           <h1 className="system-title">{system.systemTitle}</h1>
           
+          {/* Daily Tip */}
+          <div className="daily-tip-section">
+            <div className="tip-header">
+              <h3 className="tip-title">{t('system.dailyTip.title')}</h3>
+              <button className="tip-refresh" onClick={refreshTip}>
+                {t('system.dailyTip.refresh')}
+              </button>
+            </div>
+            <p className="tip-text">{dailyTip}</p>
+          </div>
+          
           <div className="patterns-section">
             {system.patterns.map((pattern, index) => (
               <div key={index} className="pattern-card">
@@ -255,6 +297,12 @@ function PersonalizedSystem({ answers, mindType, onRestart, savedSystemData }) {
           </div>
           
           <div className="system-actions">
+            <button className="button secondary" onClick={onViewDashboard}>
+              {t('system.dashboard.title')}
+            </button>
+            <button className="button secondary" onClick={onStartChallenge}>
+              {t('system.challenge.title')}
+            </button>
             <button className="button secondary" onClick={handleShare}>
               {t('system.share')}
             </button>

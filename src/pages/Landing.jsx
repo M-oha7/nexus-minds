@@ -6,11 +6,7 @@ function Landing({ onStart }) {
 
   return (
     <div className="page page-enter-active landing-page cinematic-landing">
-      <img 
-        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80" 
-        alt="" 
-        className="landing-background"
-      />
+      <div className="landing-background"></div>
       <div className="landing-overlay cinematic-overlay"></div>
       <div className="landing-container">
         <div className="card landing-card cinematic-card">

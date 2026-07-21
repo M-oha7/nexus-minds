@@ -5,15 +5,15 @@ function Landing({ onStart }) {
   const { t } = useTranslation();
 
   return (
-    <div className="page page-enter-active landing-page cinematic-landing">
+    <div className="page page-enter-active landing-page">
       <div className="landing-background"></div>
-      <div className="landing-overlay cinematic-overlay"></div>
+      <div className="landing-overlay"></div>
       <div className="landing-container">
-        <div className="card landing-card cinematic-card">
-          <h1 className="landing-title cinematic-title">{t('landing.title')}</h1>
-          <h2 className="landing-subtitle cinematic-subtitle">{t('landing.subtitle')}</h2>
-          <p className="landing-description cinematic-description">{t('landing.description')}</p>
-          <button className="button cinematic-button" onClick={onStart}>
+        <div className="card landing-card">
+          <h1 className="landing-title">{t('landing.title')}</h1>
+          <h2 className="landing-subtitle">{t('landing.subtitle')}</h2>
+          <p className="landing-description">{t('landing.description')}</p>
+          <button className="button" onClick={onStart}>
             {t('landing.button')}
           </button>
           

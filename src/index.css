@@ -5,13 +5,13 @@
 }
 
 :root {
-  --background: #191919;
-  --card: #202020;
-  --border: #373737;
+  --background: #0a0a0a;
+  --card: #1a1a1a;
+  --border: #333333;
   --accent: #2383e2;
   --accent-light: #e8f4ff;
   --text-primary: #ffffff;
-  --text-secondary: #9b9b9b;
+  --text-secondary: #b0b0b0;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
@@ -193,6 +193,11 @@ body {
 .landing-card {
   max-width: 600px;
   text-align: center;
+  background: rgba(26, 26, 26, 0.9);
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(35, 131, 226, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .landing-title {
